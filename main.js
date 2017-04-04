@@ -16,20 +16,22 @@ var shoppingList = {
 // State modification functions
 var addItem = function(state, item) {
     state.items.push(item);
+    console.log(state);
+    console.log(item);
 };
 
 // Render functions
 var renderList = function(state, element) {
     var itemsHTML = state.items.map(function(item) {
-        return '<li>' + item + '</li>';
+        return '<li><span class="shopping-item">' + item + '</span><div class="shopping-item-controls"><button class="shopping-item-toggle"><span class="button-label">check</span></button><button class="shopping-item-delete"><span class="button-label">delete</span></button></div></li>';
     });
-    element.html(itemsHTML);
+    element.append(itemsHTML);
 };
 
 // Event listeners
-$('.shopping-list-add').submit(function(event) {
+$('#js-shopping-list-form').submit(function(event) {
     event.preventDefault();
-    addItem(state, $('.shopping-list-add-input').val());
-    renderList(state, $('.shopping-list'));
+    addItem(shoppingList, $('#shopping-list-entry').val());
+    renderList(shoppingList, $('.shopping-list'));
 });
 
