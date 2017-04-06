@@ -9,6 +9,7 @@
 //Model
 var shoppingList = {//single source of truth.
 	items: ["apple", "oranges", "bread", "milk", "flowers"],
+	register: ["bread"]
 };
 
 //Controler-usualy defining a function. 
@@ -40,9 +41,16 @@ var renderList = function(state) {
     	// 	hooray!
     	//`;
 
+    	var register = state.register;
+    	var className = "";
+
+    	if (/*this item is in the register*/false) {
+    		className = "shopping-item__checked";
+    	} 
+
         return `
         	<li index="${index}">
-        		<span class="shopping-item">${item}</span>
+        		<span class="shopping-item ${className}">${item}. ${register}</span>
         		<div class="shopping-item-controls">
         			<button class="shopping-item-toggle">
         				<span class="button-label">check</span>
@@ -65,6 +73,7 @@ var deleteItems = function(state, itemToDelete){
 	renderList(state);
 };
 
+
 function handleSubmitEvent(event) {
     event.preventDefault();
     addItem(shoppingList, $('#shopping-list-entry').val());
@@ -76,16 +85,18 @@ function handleSubmitEvent(event) {
    $('#js-shopping-list-form').submit(handleSubmitEvent);
  
  //deleteItems.onclick = function(state,element)
- $(".shopping-list").on("click", ".shopping-item-delete", function handleClickEvent(event){
+ $(".shopping-list").on("click", ".shopping-item-delete", function handleClickDelete(event){
  	//to call my function I can: 1)use jQuery as an event listenter 2)call it myself 
  	var itemToDelete = $(event.currentTarget).closest("li").attr("index");
  	event.preventDefault();
  
  	deleteItems(shoppingList, itemToDelete);
  	
- })
+ });
 
+ $(".shopping-list").on("click", ".shopping-item-toggle", function handleClickCheck(event){
 
+});
 
 
 
