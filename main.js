@@ -7,8 +7,8 @@
 //MCV (MVC)Industry standard
 
 //Model
-var shoppingList = {
-	items: []
+var shoppingList = {//single source of truth.
+	items: ["apple", "oranges", "bread", "milk", "flowers"],
 };
 
 //Controler-usualy defining a function. 
@@ -21,9 +21,10 @@ var addItem = function(state, item) {
     //console.log(item);
 };
 
+
 // Render functions
 var renderList = function(state) {
-    var itemsHTML = state.items.map(function(item,index) {
+    var itemsHTML = state.items.map(function(item,index) { 
 
     	// var string1 = 'single quoted string'
     	// var string2 = "double quoted string"
@@ -47,7 +48,7 @@ var renderList = function(state) {
         				<span class="button-label">check</span>
         			</button>
         			<button class="shopping-item-delete">
-        				<span class="button-label">delete!</span>
+        				<span class="button-label">delete</span>
         			</button>
         		</div>
         	</li>
@@ -55,24 +56,28 @@ var renderList = function(state) {
 
     });
     $('.shopping-list').html(itemsHTML);
- };
+};
 
+renderList(shoppingList);
 
 var deleteItems = function(state, itemToDelete){
 	state.items.splice(itemToDelete, 1)
 	renderList(state);
 };
 
-
-// Event listeners
-   $('#js-shopping-list-form').submit(function(event) {
+function handleSubmitEvent(event) {
     event.preventDefault();
     addItem(shoppingList, $('#shopping-list-entry').val());
-    renderList(shoppingList);
-});
+  	renderList(shoppingList);
+}
+
+
+// Event listeners
+   $('#js-shopping-list-form').submit(handleSubmitEvent);
  
  //deleteItems.onclick = function(state,element)
- $(".shopping-list").on("click", ".shopping-item-delete", function(event){
+ $(".shopping-list").on("click", ".shopping-item-delete", function handleClickEvent(event){
+ 	//to call my function I can: 1)use jQuery as an event listenter 2)call it myself 
  	var itemToDelete = $(event.currentTarget).closest("li").attr("index");
  	event.preventDefault();
  
@@ -80,8 +85,6 @@ var deleteItems = function(state, itemToDelete){
  	
  })
 
-//if state.items is an array, you need a way to tell it 
-	//what the index is of the item you want to delete
 
 
 
